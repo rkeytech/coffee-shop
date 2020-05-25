@@ -8,7 +8,7 @@ Create a database system in SQLite where you would store all the informations fo
 
 #### Tasks
 
-- [ ] Create the basic app with Flask. Render the static templates only, without anything else
+- [x] Create the basic app with Flask. Render the static templates only, without anything else
 
 - [ ] Create the database with all the tables and the details we will need to have in each one of them
 

@@ -3,9 +3,45 @@
 {% block title %} Stuff {% endblock title %}
 
 {% block content %}
+<div class="row">
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Job</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in stuff %}
+                <tr>
+                    <th scope="row">##</th>
+                    <td>{{ member.0 }}</td>
+                    <td>{{ member.1 }}</td>
+                    <td>{{ member.2 }}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Actions for stuff">
 
-<div class="container">
-    <h2>Stuff</h2>
+                            <button id="ActionsDrop" type="button" class="btn btn-secondary dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Actions
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="ActionsDrop">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Remove</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
-
+<div class="row">
+    <a class="btn btn-outline-dark" href="#" role="button">Add new stuff</a>
+</div>
 {% endblock content %}

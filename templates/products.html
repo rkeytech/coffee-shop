@@ -3,9 +3,116 @@
 {% block title %} Products {% endblock title %}
 
 {% block content %}
-
-<div class="container">
-    <h2>Products</h2>
+<div class="row">
+    <div class="col">
+        <div class="btn-group" role="group" aria-label="Actions for products">
+            <button type="button" class="btn btn-dark mb-2">Add new item</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                Categories
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="2">#</th>
+                            <th scope="col">Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row" colspan="2">1</th>
+                            <td>Black Coffee</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" colspan="2">2</th>
+                            <td>Instant Coffee</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" colspan="2">3</th>
+                            <td>Hot Coffee</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                Extras
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="2">#</th>
+                            <th scope="col">Extra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row" colspan="2">1</th>
+                            <td>Milk</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" colspan="2">2</th>
+                            <td>Chocolate</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" colspan="2">3</th>
+                            <td>Sugar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-1">
+    <div class="col">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                Products
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td colspan="2">Larry the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock content %}
