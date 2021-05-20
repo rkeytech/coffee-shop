@@ -1,12 +1,10 @@
 # Cafe Management with Flask and Bootstrap 4
 
-***
-
-#### Goal
+## Goal
 
 Create a database system in SQLite where you would store all the informations for the stuff of a coffee shop, the products in categories and with extras in every category, the orders of the coffee shop and in the home page there would be some useful informations about the income, the costs of the shop, the best and worst products. The front-end will be some basic bootstrap elements with a simple design. We'll use Flask to bring all the elements together to have a working MVP.
 
-#### Tasks
+## Tasks
 
 - [x] Create the basic app with Flask. Render the static templates only, without anything else
 
