@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Stuff {% endblock title %}
+{% block title %} {{ title }} {% endblock title %}
 
 {% block content %}
 <div class="row">
@@ -19,9 +19,9 @@
                 {% for member in stuff %}
                 <tr>
                     <th scope="row">##</th>
-                    <td>{{ member.0 }}</td>
                     <td>{{ member.1 }}</td>
                     <td>{{ member.2 }}</td>
+                    <td>{{ member.3 }}</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Actions for stuff">
 
@@ -30,6 +30,7 @@
                                 Actions
                             </button>
                             <div class="dropdown-menu" aria-labelledby="ActionsDrop">
+                                <a class="dropdown-item" href="{{ url_for('profile', pk=member.1) }}">View</a>
                                 <a class="dropdown-item" href="#">Edit</a>
                                 <a class="dropdown-item" href="#">Remove</a>
                             </div>
