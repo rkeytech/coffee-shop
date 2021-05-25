@@ -1,9 +1,5 @@
 from flask import Flask, render_template
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
-from sqlalchemy import SQLAlchemy
-from datetime import datetime
+from forms import MemberForm
 
 
 # Create a Flask Instance
@@ -26,6 +22,17 @@ def stuff():
              [1, "Giorgos", "Zach", "Waiter"],
              [2, "Eva", "Zach", "Waiter"]]
     return render_template('stuff.html', stuff=stuff, title='Stuff')
+
+
+@app.route('/stuff/add', methods=['POST', 'GET'])
+def add_member():
+    form = MemberForm()
+    if form.validate_on_submit():
+        form.submit.data = ''
+    context = {
+        'form': form
+    }
+    return render_template('add_member.html', context=context, title='Add new stuff')
 
 
 @app.route('/profile/<pk>')
