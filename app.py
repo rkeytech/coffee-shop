@@ -1,51 +1,120 @@
-from flask import Flask, render_template
-from forms import MemberForm
+from flask import Flask, render_template, redirect, flash, request
+from database import db
+from models import User
+from forms import UserForm
 
-
+# App Initialization
 # Create a Flask Instance
 app = Flask(__name__)
-# Create a database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafe.db'
+
 # Create a secret for form validation
 app.config['SECRET_KEY'] = 'not so much secure key'
 
+# Create a database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafe.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Basic Routing
+# Initiliaze the database
+db.init_app(app)
+
+
+# ROUTING
 @app.route('/')
 def dashboard():
     return render_template('dashboard.html', title='Dashboard')
 
 
+# STUFF
 @app.route('/stuff')
 def stuff():
-    stuff = [[0, "Timos", "Zach", "Waiter"],
-             [1, "Giorgos", "Zach", "Waiter"],
-             [2, "Eva", "Zach", "Waiter"]]
-    return render_template('stuff.html', stuff=stuff, title='Stuff')
+    stuff = User.query.all()
+    context = {
+        'stuff': stuff
+    }
+    return render_template('stuff.html', context=context, title='Stuff')
 
 
 @app.route('/stuff/add', methods=['POST', 'GET'])
-def add_member():
-    form = MemberForm()
+def add_user():
+    form = UserForm()
     if form.validate_on_submit():
-        form.submit.data = ''
+        try:
+            # Create the user and add it to the database
+            user = User(
+                first_name=form.first_name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                job=form.job.data,
+                wage=form.wage.data
+            )
+            db.session.add(user)
+            db.session.commit()
+            # Create message for the success
+            flash(
+                f'Stuff {form.first_name.data} added successfully!', 'success'
+            )
+            # Redirect back to stuff
+            return redirect('/stuff')
+        except Exception as e:
+            flash(
+                f'Error with adding {form.first_name.data}!', 'danger'
+            )
+            return redirect('/stuff')
+
+    # Create the context dictionary to pass to template
     context = {
         'form': form
     }
-    return render_template('add_member.html', context=context, title='Add new stuff')
+    return render_template('add_user.html', context=context, title='Add new stuff')
 
 
-@app.route('/profile/<pk>')
-def profile(pk):
-    context = [0, "Timos", "Zach", "Waiter"]
-    return render_template('profile.html', title=context[1], context=context)
+@app.route('/stuff/profile/<int:pk>')
+def view_user(pk):
+    user = User.query.get_or_404(pk)
+    context = {
+        'user': user
+    }
+    return render_template('profile.html', context=context, title='User')
 
 
+@app.route('/stuff/edit/<int:pk>', methods=['GET', 'POST'])
+def edit_user(pk):
+    user = User.query.get_or_404(pk)
+    form = UserForm(
+        first_name=user.first_name, last_name=user.last_name,
+        email=user.email, job=user.job, wage=user.wage
+    )
+    if request.method == 'POST':
+        try:
+            user.first_name = form.first_name.data
+            user.last_name = form.last_name.data
+            user.email = form.email.data
+            user.job = form.job.data
+            user.wage = form.wage.data
+            db.session.commit()
+            flash(
+                f'User {user.first_name} updated successfully!', 'success'
+            )
+            return redirect('/stuff')
+        except:
+            flash(
+                f'There was a problem with updating user {user.first_name}!', 'danger'
+            )
+            return redirect('/stuff')
+    context = {
+        'form': form,
+        'submit': ('Update stuff', 'warning')
+    }
+    return render_template('add_user.html', context=context, title='Update user...')
+
+
+# PRODUCTS
 @ app.route('/products')
 def products():
     return render_template('products.html', title='Products')
 
 
+# ORDERS
 @ app.route('/orders')
 def orders():
     orders = [["1", "frappe", "3.40", "Timos", "01/02/2020"],
