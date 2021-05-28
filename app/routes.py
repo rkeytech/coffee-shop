@@ -1,21 +1,7 @@
-from flask import Flask, render_template, redirect, flash, request
-from database import db
-from models import User
-from forms import UserForm
-
-# App Initialization
-# Create a Flask Instance
-app = Flask(__name__)
-
-# Create a secret for form validation
-app.config['SECRET_KEY'] = 'not so much secure key'
-
-# Create a database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafe.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Initiliaze the database
-db.init_app(app)
+from flask import render_template, redirect, flash, request
+from app.forms import UserForm
+from app.models import User
+from app import app, db
 
 
 # ROUTING
@@ -63,18 +49,22 @@ def add_user():
 
     # Create the context dictionary to pass to template
     context = {
-        'form': form
+        'form': form,
+        'submit': ('Add Stuff', 'success')
     }
-    return render_template('add_user.html', context=context, title='Add new stuff')
+    return render_template('user_view.html', context=context, title='Add Stuff')
 
 
-@app.route('/stuff/profile/<int:pk>')
+@app.route('/stuff/view/<int:pk>')
 def view_user(pk):
     user = User.query.get_or_404(pk)
     context = {
-        'user': user
+        'user': user,
+        'view': True
     }
-    return render_template('profile.html', context=context, title='User')
+    return render_template(
+        'user_view.html', context=context, title=f"{user.first_name} Profile"
+    )
 
 
 @app.route('/stuff/edit/<int:pk>', methods=['GET', 'POST'])
@@ -105,7 +95,12 @@ def edit_user(pk):
         'form': form,
         'submit': ('Update stuff', 'warning')
     }
-    return render_template('add_user.html', context=context, title='Update user...')
+    return render_template('user_view.html', context=context, title='Update Stuff')
+
+
+@app.route('/stuff/delete/<int:pk>', methods=['POST'])
+def delete_user(pk):
+    pass
 
 
 # PRODUCTS

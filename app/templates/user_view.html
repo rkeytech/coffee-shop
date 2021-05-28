@@ -3,6 +3,41 @@
 {% block title %} {{ title }} {% endblock %}
 
 {% block content %}
+
+{% if context.view %}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mt-3">
+            <div class="card-body">
+                <h3 class="card-title">{{ context.user.email }}</h3>
+                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia neque quo unde, est
+                    eius
+                    impedit perspiciatis ullam iusto reiciendis, quaerat aliquid obcaecati minima? Officiis consectetur
+                    ea
+                    eos
+                    consequuntur, corrupti recusandae?</p>
+            </div>
+            <ul class="list-group list-group-flush mx-2">
+                <li class="list-group-item list-group-item-dark"> <strong>Personal Information</strong></li>
+                <li class="list-group-item"><strong>First Name: </strong>{{context.user.first_name}}</li>
+                <li class="list-group-item"><strong>Last Name: </strong>{{context.user.last_name}}</li>
+                <li class="list-group-item"><strong>Job: </strong>{{context.user.job}}</li>
+                <li class="list-group-item"><strong>Wage: </strong>{{context.user.wage}}</li>
+            </ul>
+            <div class="card-footer text-center">
+                <a href="{{url_for('edit_user', pk=context.user.id)}}" class="btn btn-outline-warning card-link">Edit Member</a>
+                <a href="#" class="btn btn-outline-danger card-link">Remove Member</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mt-3">
+        <img src="https://via.placeholder.com/350x450 " class="img-thumbnail" alt="...">
+    </div>
+</div>
+
+{% else %}
+
 <div class="row justify-content-md-center">
     <div class="col-8">
         <form action="" method="post">
@@ -52,6 +87,8 @@
             </div>
         </form>
     </div>
+
 </div>
+{% endif %}
 
 {% endblock %}
