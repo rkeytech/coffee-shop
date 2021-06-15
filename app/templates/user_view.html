@@ -1,94 +1,121 @@
-{% extends 'base.html' %}
-
-{% block title %} {{ title }} {% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} 
+{% block title %} {{ title }} {% endblock %} 
+{% block content %} 
 
 {% if context.view %}
 
 <div class="row">
-    <div class="col-md-8">
-        <div class="card mt-3">
-            <div class="card-body">
-                <h3 class="card-title">{{ context.user.email }}</h3>
-                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia neque quo unde, est
-                    eius
-                    impedit perspiciatis ullam iusto reiciendis, quaerat aliquid obcaecati minima? Officiis consectetur
-                    ea
-                    eos
-                    consequuntur, corrupti recusandae?</p>
-            </div>
-            <ul class="list-group list-group-flush mx-2">
-                <li class="list-group-item list-group-item-dark"> <strong>Personal Information</strong></li>
-                <li class="list-group-item"><strong>First Name: </strong>{{context.user.first_name}}</li>
-                <li class="list-group-item"><strong>Last Name: </strong>{{context.user.last_name}}</li>
-                <li class="list-group-item"><strong>Job: </strong>{{context.user.job}}</li>
-                <li class="list-group-item"><strong>Wage: </strong>{{context.user.wage}}</li>
-            </ul>
-            <div class="card-footer text-center">
-                <a href="{{url_for('edit_user', pk=context.user.id)}}" class="btn btn-outline-warning card-link">Edit Member</a>
-                <a href="#" class="btn btn-outline-danger card-link">Remove Member</a>
-            </div>
-        </div>
+  <div class="col-md-8">
+    <div class="card mt-3">
+      <div class="card-body">
+        <h3 class="card-title">{{context.user.email}}</h3>
+        <p class="card-text">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia neque
+          quo unde, est eius impedit perspiciatis ullam iusto reiciendis,
+          quaerat aliquid obcaecati minima? Officiis consectetur ea eos
+          consequuntur, corrupti recusandae?
+        </p>
+      </div>
+      <ul class="list-group list-group-flush mx-2">
+        <li class="list-group-item list-group-item-dark">
+          <strong>Personal Information</strong>
+        </li>
+        <li class="list-group-item">
+          <strong>First Name: </strong>{{context.user.first_name}}
+        </li>
+        <li class="list-group-item">
+          <strong>Last Name: </strong>{{context.user.last_name}}
+        </li>
+        <li class="list-group-item">
+          <strong>Phone: </strong>{{context.user.phone}}
+        </li>
+        <li class="list-group-item">
+          <strong>Job: </strong>{{context.user.job}}
+        </li>
+        <li class="list-group-item">
+          <strong>Wage: </strong>{{context.user.wage}}
+        </li>
+      </ul>
+      <div class="card-footer text-center">
+        <a
+          href="{{url_for('edit_user', pk=context.user.id)}}"
+          class="btn btn-outline-warning card-link"
+          >Edit Member</a
+        >
+        <a href="{{ url_for('delete_user', pk=context.user.id) }}" class="btn btn-outline-danger card-link">Remove Member</a>
+      </div>
     </div>
-    <div class="col-md-4 mt-3">
-        <img src="https://via.placeholder.com/350x450 " class="img-thumbnail" alt="...">
-    </div>
+  </div>
+  <div class="col-md-4 mt-3">
+    <img
+      src="https://via.placeholder.com/350x450 "
+      class="img-thumbnail"
+      alt="..."
+    />
+  </div>
 </div>
 
 {% else %}
 
 <div class="row justify-content-md-center">
-    <div class="col-8">
-        <form action="" method="post">
-            {{ context.form.hidden_tag() }}
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="first_name">{{ context.form.first_name.label }}</label>
-                        {{ context.form.first_name(class="form-control", id="first_name") }}
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="last_name">{{ context.form.last_name.label }}</label>
-                        {{ context.form.last_name(class="form-control", id="last_name") }}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="email">{{ context.form.email.label }}</label>
-                        {{ context.form.email(class="form-control", id="email") }}
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="job">{{ context.form.job.label }}</label>
-                        {{ context.form.job(class="form-control", id="job") }}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="wage">{{ context.form.wage.label }}</label>
-                        {{ context.form.wage(class="form-control", id="wage") }}
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="row justify-content-md-center">
-                <div class="col-8">
-                    <button type="submit"
-                        class="btn btn-block btn-outline-{{context.submit.1}}">{{context.submit.0}}</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
+  <div class="col-8">
+    <form action="" method="post">
+      {{ context.form.hidden_tag() }}
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="first_name">{{ context.form.first_name.label }}</label>
+            {{ context.form.first_name(class="form-control", id="first_name") }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="last_name">{{ context.form.last_name.label }}</label>
+            {{ context.form.last_name(class="form-control", id="last_name") }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="email">{{ context.form.email.label }}</label>
+            {{ context.form.email(class="form-control", id="email") }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="phone">{{ context.form.phone.label }}</label>
+            {{ context.form.phone(class="form-control", id="phone") }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="job">{{ context.form.job.label }}</label>
+            {{ context.form.job(class="form-control", id="job") }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="wage">{{ context.form.wage.label }}</label>
+            {{ context.form.wage(class="form-control", id="wage") }}
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row justify-content-md-center">
+        <div class="col-8">
+          <button
+            type="submit"
+            class="btn btn-block btn-outline-{{context.submit.1}}"
+          >
+            {{context.submit.0}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 {% endif %}
-
 {% endblock %}

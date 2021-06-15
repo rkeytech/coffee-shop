@@ -6,6 +6,7 @@ class User(db.Model):
     first_name = db.Column(db.String(120), nullable=False)
     last_name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
+    phone = db.Column(db.String(50), default="No number")
     job = db.Column(db.String(50), nullable=False)
     wage = db.Column(db.Float, nullable=False)
 

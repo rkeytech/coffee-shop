@@ -30,6 +30,7 @@ def add_user():
                 first_name=form.first_name.data,
                 last_name=form.last_name.data,
                 email=form.email.data,
+                phone=form.phone.data,
                 job=form.job.data,
                 wage=form.wage.data
             )
@@ -72,13 +73,14 @@ def edit_user(pk):
     user = User.query.get_or_404(pk)
     form = UserForm(
         first_name=user.first_name, last_name=user.last_name,
-        email=user.email, job=user.job, wage=user.wage
+        email=user.email, job=user.job, wage=user.wage, phone=user.phone
     )
     if request.method == 'POST':
         try:
             user.first_name = form.first_name.data
             user.last_name = form.last_name.data
             user.email = form.email.data
+            user.phone = form.phone.data
             user.job = form.job.data
             user.wage = form.wage.data
             db.session.commit()
@@ -98,9 +100,18 @@ def edit_user(pk):
     return render_template('user_view.html', context=context, title='Update Stuff')
 
 
-@app.route('/stuff/delete/<int:pk>', methods=['POST'])
+@app.route('/stuff/delete/<int:pk>', methods=['GET', 'POST'])
 def delete_user(pk):
-    pass
+    user = User.query.get_or_404(pk)
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        flash(f'User {user.first_name} deleted successfully!!', 'success')
+        return redirect('/stuff')
+    except:
+        flash(f"There was a problem with user deletion! Try again...", 'danger')
+        return redirect('/stuff')
+
 
 
 # PRODUCTS

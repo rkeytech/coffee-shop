@@ -48,7 +48,7 @@
                             <div class="dropdown-menu" aria-labelledby="ActionsDrop">
                                 <a class="dropdown-item" href="{{ url_for('view_user', pk=user.id) }}">View</a>
                                 <a class="dropdown-item" href="{{ url_for('edit_user', pk=user.id) }}">Edit</a>
-                                <a class="dropdown-item" href="#">Remove</a>
+                                <a class="dropdown-item" href="{{ url_for('delete_user', pk=user.id) }}">Remove</a>
                             </div>
                         </div>
                     </td>
