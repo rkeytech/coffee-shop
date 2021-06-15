@@ -1,9 +1,11 @@
+<!-- prettier-ignore -->
+
 {% extends 'base.html' %} 
-{% block title %} {{ title }} {% endblock %} 
+{% block title %} {{ title }} {% endblock %}
+
 {% block content %} 
 
 {% if context.view %}
-
 <div class="row">
   <div class="col-md-8">
     <div class="card mt-3">
@@ -30,19 +32,29 @@
           <strong>Phone: </strong>{{context.user.phone}}
         </li>
         <li class="list-group-item">
+          <strong>Address: </strong>{{context.user.address}}
+        </li>
+        <li class="list-group-item">
           <strong>Job: </strong>{{context.user.job}}
         </li>
         <li class="list-group-item">
           <strong>Wage: </strong>{{context.user.wage}}
         </li>
+        <li class="list-group-item">
+          <strong>Password: </strong>{{context.user.password}}
+        </li>
       </ul>
       <div class="card-footer text-center">
         <a
-          href="{{url_for('edit_user', pk=context.user.id)}}"
+          href="{{url_for('views.edit_user', pk=context.user.id)}}"
           class="btn btn-outline-warning card-link"
           >Edit Member</a
         >
-        <a href="{{ url_for('delete_user', pk=context.user.id) }}" class="btn btn-outline-danger card-link">Remove Member</a>
+        <a
+          href="{{ url_for('views.delete_user', pk=context.user.id) }}"
+          class="btn btn-outline-danger card-link"
+          >Remove Member</a
+        >
       </div>
     </div>
   </div>
@@ -54,9 +66,7 @@
     />
   </div>
 </div>
-
 {% else %}
-
 <div class="row justify-content-md-center">
   <div class="col-8">
     <form action="" method="post">
@@ -84,6 +94,14 @@
         </div>
         <div class="col">
           <div class="form-group">
+            <label for="wage">{{ context.form.wage.label }}</label>
+            {{ context.form.wage(class="form-control", id="wage") }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
             <label for="phone">{{ context.form.phone.label }}</label>
             {{ context.form.phone(class="form-control", id="phone") }}
           </div>
@@ -94,12 +112,18 @@
             {{ context.form.job(class="form-control", id="job") }}
           </div>
         </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="address">{{ context.form.address.label }}</label>
+            {{ context.form.address(class="form-control", id="address") }}
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label for="wage">{{ context.form.wage.label }}</label>
-            {{ context.form.wage(class="form-control", id="wage") }}
+            <label for="password">{{ context.form.password.label }}</label>
+            {{ context.form.password(class="form-control", id="password") }}
           </div>
         </div>
       </div>
@@ -117,5 +141,7 @@
     </form>
   </div>
 </div>
+<!-- prettier-ignore -->
+
 {% endif %}
 {% endblock %}

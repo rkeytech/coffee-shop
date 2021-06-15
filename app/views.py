@@ -1,17 +1,19 @@
-from flask import render_template, redirect, flash, request
-from app.forms import UserForm
-from app.models import User
-from app import app, db
+from flask import Blueprint, render_template, redirect, flash, request
+from .forms import UserForm
+from .models import User
+from . import db
+# Create the blueprint
+views = Blueprint('views', __name__)
 
 
-# ROUTING
-@app.route('/')
+# Routes
+@views.route('/')
 def dashboard():
     return render_template('dashboard.html', title='Dashboard')
 
 
 # STUFF
-@app.route('/stuff')
+@views.route('/stuff')
 def stuff():
     stuff = User.query.all()
     context = {
@@ -20,7 +22,7 @@ def stuff():
     return render_template('stuff.html', context=context, title='Stuff')
 
 
-@app.route('/stuff/add', methods=['POST', 'GET'])
+@views.route('/stuff/add', methods=['POST', 'GET'])
 def add_user():
     form = UserForm()
     if form.validate_on_submit():
@@ -31,8 +33,10 @@ def add_user():
                 last_name=form.last_name.data,
                 email=form.email.data,
                 phone=form.phone.data,
+                address=form.address.data,
                 job=form.job.data,
-                wage=form.wage.data
+                wage=form.wage.data,
+                password=form.password.data
             )
             db.session.add(user)
             db.session.commit()
@@ -56,7 +60,7 @@ def add_user():
     return render_template('user_view.html', context=context, title='Add Stuff')
 
 
-@app.route('/stuff/view/<int:pk>')
+@views.route('/stuff/view/<int:pk>')
 def view_user(pk):
     user = User.query.get_or_404(pk)
     context = {
@@ -68,12 +72,13 @@ def view_user(pk):
     )
 
 
-@app.route('/stuff/edit/<int:pk>', methods=['GET', 'POST'])
+@views.route('/stuff/edit/<int:pk>', methods=['GET', 'POST'])
 def edit_user(pk):
     user = User.query.get_or_404(pk)
     form = UserForm(
         first_name=user.first_name, last_name=user.last_name,
-        email=user.email, job=user.job, wage=user.wage, phone=user.phone
+        email=user.email, job=user.job, wage=user.wage,
+        phone=user.phone, address=user.address, password=user.password
     )
     if request.method == 'POST':
         try:
@@ -81,8 +86,10 @@ def edit_user(pk):
             user.last_name = form.last_name.data
             user.email = form.email.data
             user.phone = form.phone.data
+            user.address = form.address.data
             user.job = form.job.data
             user.wage = form.wage.data
+            user.password = form.password.data
             db.session.commit()
             flash(
                 f'User {user.first_name} updated successfully!', 'success'
@@ -100,7 +107,7 @@ def edit_user(pk):
     return render_template('user_view.html', context=context, title='Update Stuff')
 
 
-@app.route('/stuff/delete/<int:pk>', methods=['GET', 'POST'])
+@views.route('/stuff/delete/<int:pk>')
 def delete_user(pk):
     user = User.query.get_or_404(pk)
     try:
@@ -113,15 +120,14 @@ def delete_user(pk):
         return redirect('/stuff')
 
 
-
 # PRODUCTS
-@ app.route('/products')
+@views.route('/products')
 def products():
     return render_template('products.html', title='Products')
 
 
 # ORDERS
-@ app.route('/orders')
+@views.route('/orders')
 def orders():
     orders = [["1", "frappe", "3.40", "Timos", "01/02/2020"],
               ["2", "tost", "1.30", "Eva", "01/03/2020"],
@@ -130,11 +136,11 @@ def orders():
 
 
 # Custom Error Pages
-@ app.errorhandler(404)
+@views.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html', title='404 Error'), 404
 
 
-@ app.errorhandler(500)
+@views.errorhandler(500)
 def page_not_found(e):
     return render_template('500.html', title='500 Error'), 500
